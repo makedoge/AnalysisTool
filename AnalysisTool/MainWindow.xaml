@@ -1,0 +1,75 @@
+﻿<Window x:Class="AnalysisTool.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="AnalysisTool" Height="600" Width="600" WindowState="Maximized"
+    xmlns:Control="clr-namespace:FringeAnalysis.Controls;assembly=FringeAnalysis"
+    xmlns:con="clr-namespace:WPFControls;assembly=WPFControls" >
+  <DockPanel>    
+    <Menu DockPanel.Dock="Top" >
+      <MenuItem Header="_File" >
+        <MenuItem Header="New" >
+          <MenuItem Header="Window" Command="ApplicationCommands.New" />
+        </MenuItem>
+        <MenuItem x:Name="OpenImage" Header="O_pen" Command="Control:ImageAnalysis.LoadImage"/>
+        <Separator />
+        <MenuItem Header="Exit" Command="ApplicationCommands.Close" />
+      </MenuItem>
+      <MenuItem Header="_View" >
+        <MenuItem Header="Arrange" >
+          <MenuItem Header="Cascade" Command="Control:AnalysisWindow.Cascade" />
+          <MenuItem Header="Tile" Command="Control:AnalysisWindow.Tile" />
+          <MenuItem Header="Vertical" Command="Control:AnalysisWindow.TileVertically" />
+          <MenuItem Header="Horizontal" Command="Control:AnalysisWindow.TileHorizontally" />
+        </MenuItem>
+
+        <con:MenuItems IsCheckable="True" HeaderBindingPath="ShortTitle" IsCheckedBindingPath="IsSelected" 
+            ItemsSource="{Binding ElementName=gAnalysisWindow, Path=AttachedChildren}"
+            TopSeparatorVisibility="Visible" />
+                 
+      </MenuItem>
+      <MenuItem Header="_Tools">
+        <MenuItem x:Name="Options" Header="_Options" HorizontalAlignment="Left" Width="140"/>
+      </MenuItem>
+      <MenuItem Header="_Analysis">
+        <MenuItem x:Name="Run" Header="R_un" Command="" />
+        <MenuItem x:Name="CutImage" Header="C_utImage" Command="Control:ImageAnalysis.CutImage"/>
+                <MenuItem x:Name="CircleToSquare" Header="CircleT_oSquare" Command="Control:ImageAnalysis.CircleToSquare"/>
+                <MenuItem x:Name="SquareToCircle" Header="SquareT_oCircle" Command="Control:ImageAnalysis.SquareToCircle"/>
+                <MenuItem x:Name="Fft" Header="F_ftImage"/>
+        <MenuItem x:Name="EdgeMesurement" Header="E_dge" Command="Control:ImageAnalysis.ImageEdge"/>
+      </MenuItem>
+      <MenuItem Header="_Help">
+        <MenuItem x:Name="About" Header="_About" HorizontalAlignment="Left" Width="140"/>
+      </MenuItem>
+    </Menu>
+    <Canvas Background="Transparent" x:Name="MyCanvas" DockPanel.Dock="Top">
+    <Control:AnalysisWindow x:Name="gAnalysisWindow" 
+                         Width="{Binding ElementName=MyCanvas, Path=ActualWidth}" 
+                         Height="{Binding ElementName=MyCanvas, Path=ActualHeight}"
+                         Background="Gray" >
+        <Control:AnalysisWindow.Children>
+          <Control:AnalysisChild Background="Gray" BorderBrush="Black" 
+                                 Icon="pack://application:,,,/Resources/app.ico"
+                            Width="300" Height="300" Title="Log Window"
+                            Canvas.Left="0" Canvas.Top="0"
+                            DataContext="Control:ImageAnalysis">
+            <Grid>
+                <TextBox Text="" 
+                    Width="100" Background="Yellow" Height="24" IsEnabled="True" TextWrapping="Wrap" DataContext="{Binding}" />
+            </Grid>
+          </Control:AnalysisChild>
+          <!-- <Control:AnalysisChild Name="gParameterWindow" Background="Green" BorderBrush="Green" Icon="pack://application:,,,/Resources/app.ico"  
+                            Width="300" Height="300" Title="Parameter window" 
+                            Canvas.Left="200" Canvas.Top="200" >
+            <Grid Name="gParameterGrid">
+                            
+            </Grid> -->
+                            <!--
+            <con:WPFSQLGrid />
+          -->
+                    <!-- </Control:AnalysisChild>  -->
+        </Control:AnalysisWindow.Children>
+      </Control:AnalysisWindow>
+    </Canvas>
+  </DockPanel>
+</Window>
